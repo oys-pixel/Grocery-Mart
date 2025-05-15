@@ -4,6 +4,7 @@ import { AllProducts } from "../Product/Card";
 import { Link, useLocation } from "react-router-dom";
 function Navbar() {
   const [dark, setDark] = useState("");
+  const [active, setActive] = useState(false);
   const categories = ["Kitchen", "HouseHold"];
   const ToggleTheme = () => {
     setDark(dark !== "light" ? "light" : "dark");
@@ -38,7 +39,7 @@ function Navbar() {
           <div className="collapse navbar-collapse" id="navbarScroll">
             <ul className="navbar-nav mx-auto my-2 my-lg-0 navbar-nav-scroll">
               <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" to="/">
+                <Link className={`nav-link `}  aria-current="page" to="/home">
                   Home
                 </Link>
               </li>
@@ -136,12 +137,12 @@ function Navbar() {
                 </ul>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/">
-                  Contact Us
+                <Link className="nav-link" to="/formic">
+                  Formic
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/">
+                <Link className="nav-link" to="/OtherContact">
                   Contact Us
                 </Link>
               </li>
@@ -155,9 +156,7 @@ function Navbar() {
                   <input type="checkbox" id="checkbox" />
                   <div className="mode-container" onClick={ToggleTheme}>
                     <i
-                      className={`fas fa-${
-                        dark === "dark"  ? "sun" : "moon"
-                      }`}
+                      className={`fas fa-${dark === "dark" ? "sun" : "moon"}`}
                     />
                   </div>
                 </label>

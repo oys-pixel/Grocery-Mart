@@ -380,12 +380,9 @@ export function MyNewImage({ src, alt }) {
     newImage.src = src;
     newImage.alt = alt;
     newImage.onload = () => {
-
       setImageLoaded(true);
-      
     };
   }, [src]);
-
   return (
     <>
       {!imageLoaded ? (

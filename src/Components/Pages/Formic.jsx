@@ -2,15 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import GettingValues, { Archived } from "./OtherForm";
+import GettingValues from "./OtherForm";
 import Creatable from "../Slecte2";
-import FormikInput from "../Includes/MaterialInput";
-import MyInput from "../Includes/MaterialInput";
+import { useNavigate } from "react-router-dom";
+import { decryptData, encryptData } from "../Encryption";
 
 function Formic() {
   const [formData, setFormData] = useState([]);
-  const [archive, setArchive] = useState(null);
-
   const [selected, setSelected] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
 
@@ -48,6 +46,7 @@ function Formic() {
       (item, abc) => item.email === email && abc !== editIndex
     );
   };
+  const navigate = useNavigate();
   const onSubmit = (values, actions) => {
     const emailExists = checkingEmail(values.email);
     if (emailExists) {
@@ -62,23 +61,20 @@ function Formic() {
       const updated = [...formData];
       updated[editIndex] = values;
       setFormData(updated);
-      localStorage.setItem("formData", JSON.stringify(updated));
+      encryptData("formData", updated);
       setEditIndex(null);
       toast.success("Form updated!");
     } else {
-      setFormData([...formData, values]);
+      const dataTaken = [...formData, values];
+      setFormData(dataTaken);
+      encryptData("formDat", dataTaken);
       toast.success("Form Submitted!");
+      // navigate("/home", { replace: true });
     }
-    localStorage.setItem("formData", JSON.stringify([...formData, values]));
     setTimeout(() => {
       actions.setSubmitting(false);
     }, 2000);
     myForm.resetForm();
-  };
-  const archiveData = (a) => {
-    const apple = formData.filter((_, i) => i === a);
-    setArchive((b) => [...(b || []), ...apple]);
-    toast.warn("Item Archived successfully ");
   };
   const skillOptions = ["HTML", "PHP", "CSS", "JavaScript", "React", "Node.js"];
   const handleEdit = (index) => {
@@ -88,10 +84,9 @@ function Formic() {
   };
   const handleDelete = (abc) => {
     const updated = formData.filter((_, i) => i !== abc);
-    // console.log(updated);
     setFormData(updated);
-    localStorage.setItem("formData", JSON.stringify(updated));
-    toast.info("Item deleted successfully ");
+    encryptData("formData", updated);
+    toast.info("Item deleted successfully");
   };
   const myForm = useFormik({
     initialValues: {
@@ -109,11 +104,10 @@ function Formic() {
     onSubmit,
   });
   useEffect(() => {
-    const dataTaken = localStorage.getItem("formData");
-    if (dataTaken) {
-      setFormData(JSON.parse(dataTaken));
-    }
+    const data = decryptData("formData");
+    if (data) setFormData(data);
   }, []);
+
   useEffect(() => {
     setSelected(() =>
       myForm.values.skill
@@ -126,7 +120,6 @@ function Formic() {
         : []
     );
   }, [myForm.values.skill]);
-
   return (
     <>
       <form onSubmit={myForm.handleSubmit} className="col-md-6 mx-auto py-4">
@@ -178,7 +171,6 @@ function Formic() {
             <div className="text-danger">{myForm.errors.email}</div>
           )}
         </div>
-
         <div className="mb-3">
           <label htmlFor="name" className="form-label">
             Password
@@ -195,7 +187,6 @@ function Formic() {
             <div className="text-danger">{myForm.errors.Password}</div>
           )}
         </div>
-
         <div className="mb-3">
           <label htmlFor="name" className="form-label">
             Confirm Password
@@ -321,7 +312,6 @@ function Formic() {
         {myForm.errors.gender && myForm.touched.gender && (
           <div className="text-danger">{myForm.errors.gender}</div>
         )}
-
         <div className=" mt-4 form-check">
           <input
             className="form-check-input"
@@ -337,43 +327,44 @@ function Formic() {
             <div className="text-danger">{myForm.errors.terms}</div>
           )}
         </div>
-
-        <button
-          type="submit"
-          className="btn btn-primary"
-          disabled={myForm.isSubmitting}
-          onClick={myForm.handleSubmit}
-        >
-          {myForm.isSubmitting === true ? "Submitting..." : "Submit"}
-        </button>
-        <button
-          type="button"
-          className="btn btn-warning mx-2"
-          onClick={() => {
-            myForm.handleReset();
-          }}
-        >
-          Reset
-        </button>
-        <button
-          type="button"
-          className="btn btn-info mx-2"
-          onClick={() =>
-            myForm.setValues({
-              name: "John Doe",
-              number: "12",
-              email: "johndoe@example.com",
-              Password: "qwerty2#",
-              confirmPassword: "qwerty2#",
-              skill: ["html"],
-              skills: ["html", "js"],
-              gender: "Male",
-              terms: true,
-            })
-          }
-        >
-          My Values
-        </button>
+        <div className="col-md-12 d-flex ">
+          <button
+            type="submit"
+            className="btn btn-primary d-flex justify-content-evenly align-items-center"
+            disabled={myForm.isSubmitting}
+            onClick={myForm.handleSubmit}
+          >
+            {myForm.isSubmitting === true ? "Submitting..." : "Submit"}
+          </button>
+          <button
+            type="button"
+            className="btn btn-warning d-flex align-items-center mx-2"
+            onClick={() => {
+              myForm.handleReset();
+            }}
+          >
+            Reset
+          </button>
+          <button
+            type="button"
+            className="btn btn-light d-flex align-items-center mx-2"
+            onClick={() =>
+              myForm.setValues({
+                name: "John Doe",
+                number: "12",
+                email: "johndoe@example.com",
+                Password: "qwerty2#",
+                confirmPassword: "qwerty2#",
+                skill: ["html"],
+                skills: ["html", "js"],
+                gender: "Male",
+                terms: true,
+              })
+            }
+          >
+            My Values
+          </button>
+        </div>
         {myForm.isValidating === true && <p>Validating...</p>}
       </form>
       {/* <button
@@ -382,15 +373,11 @@ function Formic() {
       >
         Clear Localstorage
       </button> */}
-
       <GettingValues
         data={formData}
         handleDelete={handleDelete}
         handleEdit={handleEdit}
-        // archiveData={archiveData}
       />
-      {/* <h1 className="text-center">Archive Data</h1>
-      <Archived archive={archive} /> */}
     </>
   );
 }

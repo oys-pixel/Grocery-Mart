@@ -1656,7 +1656,7 @@ form.search-box {
 .my-Form-card:hover {
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
   background: #252323;
-  transform: scale(0.9);
+  transform: scale(1.01);
 }
 
 .my-Form-card p {
@@ -1683,11 +1683,9 @@ form.search-box {
 .my-Form-card .box {
   align-self: flex-end;
   display: flex;
+  min-width: 100%;
   align-items: center;
   margin-top: 10px;
-  /* font-size: 14px; */
-
-  /* border-radius: 8px; */
 }
 
 /*  */
