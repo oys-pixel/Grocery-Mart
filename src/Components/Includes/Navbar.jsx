@@ -20,9 +20,8 @@ function Navbar() {
       localStorage.setItem("dark", JSON.stringify(dark));
     }
   }, [dark]);
-  const navLocation = useLocation();
   return (
-    <div className={`dipt ${navLocation.pathname === "/" ? "" : "fixed-top"}`}>
+    <div className="dipt fixed-top">
       <div className="container">
         <nav className="navbar navbar-expand-lg navbar-light">
           <button

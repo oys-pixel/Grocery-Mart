@@ -1,11 +1,23 @@
-import React, { lazy, Suspense, useState } from "react";
+import React, { lazy, Suspense, useContext, useState } from "react";
 import videoImg from "../../Images/image1.jpg";
 import { AllProducts, SmallCard } from "./Card";
-import Loading from "../Includes/Loading";
+import { CartContext } from "../Pages/Cart/CartReducer";
+import { toast } from "react-toastify";
 
 function Product() {
   const [activeTab, setActiveTab] = useState("Vegetables");
   const categories = ["Vegetables", "Meats", "Bakery", "Beverages"];
+  const { dispatch } = useContext(CartContext);
+  const addToCart = (item) => {
+    dispatch({
+      type: "ADD_TO_CART",
+      payload: item,
+    });
+    toast.info(" Added to Cart", {
+      position: "bottom-left",
+      autoClose: 500,
+    });
+  };
 
   return (
     <div className="bnrtwo py-5">
@@ -58,6 +70,7 @@ function Product() {
                       img={item.img}
                       price1={item.price1}
                       price2={item.price2}
+                      onClick={() => addToCart(item)}
                     />
                   )
               )}

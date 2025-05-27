@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./login.css";
+import Formic from "../Contact/Formic";
+import MyLogin from "../Contact/MyLogin";
 
-const AuthForm = () => {
+const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
-
+  // throw new Error("Test error");
   return (
     <div className="myContainer  ">
       <div className="form-container">
@@ -23,30 +25,12 @@ const AuthForm = () => {
         </div>
 
         {isLogin ? (
-          <>
-            <div className="form">
-              <h2>Login Form</h2>
-              <input type="email" placeholder="Email" />
-              <input type="password" placeholder="Password" />
-              <a href="#">Forgot Password?</a>
-              <button>Login</button>
-              <p>
-                Not a Member?{" "}
-                <a href="#" onClick={() => setIsLogin(false)}>
-                  Signup now
-                </a>
-              </p>
-            </div>
-          </>
+          <MyLogin AonClick={() => setIsLogin(false)} />
         ) : (
           <>
             <div className="form">
               <h2>Signup Form</h2>
-              {/* You can add signup fields here */}
-              <input type="text" placeholder="Name" />
-              <input type="email" placeholder="Email" />
-              <input type="password" placeholder="Password" />
-              <button>Sign Up</button>
+              <Formic />
               <p>
                 Already a Member?{" "}
                 <a href="#" onClick={() => setIsLogin(true)}>
@@ -61,4 +45,4 @@ const AuthForm = () => {
   );
 };
 
-export default AuthForm;
+export default Login;

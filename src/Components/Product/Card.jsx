@@ -31,7 +31,7 @@ import img11 from "../../Images/d2.png";
 import img12 from "../../Images/d3.png";
 import Loading from "../Includes/Loading";
 
-function Card({ Img, heading, firstPrice, SecPrice }) {
+function Card({ Img, heading, firstPrice, SecPrice, onClick }) {
   const [currentImage, setCurrentImage] = useState(Img[0]);
   const [isHovering, setIsHovering] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -41,7 +41,6 @@ function Card({ Img, heading, firstPrice, SecPrice }) {
     const interval = setInterval(() => {
       setCurrentImage((prev) => Img[(Img.indexOf(prev) + 1) % Img.length]);
     }, 600);
-
     return () => clearInterval(interval);
   }, [isHovering, Img]);
 
@@ -81,7 +80,7 @@ function Card({ Img, heading, firstPrice, SecPrice }) {
             <span>{firstPrice}</span> <i className="item_price">{SecPrice}</i>
           </p>
           <form action="#" method="post">
-            <button type="button" className="w3ls-cart">
+            <button type="button" onClick={onClick} className="w3ls-cart">
               Add to cart
             </button>
           </form>
@@ -93,7 +92,7 @@ function Card({ Img, heading, firstPrice, SecPrice }) {
 
 export default Card;
 
-export function SmallCard({ img, name, price2, price1 }) {
+export function SmallCard({ img, name, price2, price1, onClick }) {
   const [loaded, setLoaded] = useState(false);
   return (
     <div className="col-md-4 col-lg-4 col-sm-4 bnrtwo_boxes">
@@ -123,7 +122,7 @@ export function SmallCard({ img, name, price2, price1 }) {
         <p>
           <span>{price1}</span> <i className="item_price">{price2}</i>
         </p>
-        <button type="button" className="takecart">
+        <button type="button" onClick={onClick} className="takecart">
           Add to cart
         </button>
       </div>
@@ -143,6 +142,7 @@ export const AllProducts = [
   {
     type: "Vegetables",
     img: img1,
+    id: 1,
     name: "Ladies Finger 500g",
     price1: "$380",
     price2: "$302",
@@ -150,6 +150,7 @@ export const AllProducts = [
   {
     type: "Vegetables",
     img: img2,
+    id: 2,
     name: "Brinjal long 500g",
     price1: "$380",
     price2: "$302",
@@ -160,6 +161,7 @@ export const AllProducts = [
     name: "Palak 250g",
     price1: "$380",
     price2: "$302",
+    id: 3,
   },
 
   {
@@ -168,6 +170,7 @@ export const AllProducts = [
     name: "Prawns (Big)",
     price1: "$380",
     price2: "$302",
+    id: 4,
   },
   {
     type: "Meats",
@@ -175,10 +178,12 @@ export const AllProducts = [
     name: "Silver Belly Fish",
     price1: "$380",
     price2: "$302",
+    id: 5,
   },
   {
     type: "Meats",
     img: img6,
+    id: 6,
     name: "Prawns Meat (Small)",
     price1: "$380",
     price2: "$302",
@@ -190,6 +195,7 @@ export const AllProducts = [
     name: "Pista Soan Papdi",
     price1: "$380",
     price2: "$302",
+    id: 7,
   },
   {
     type: "Bakery",
@@ -197,10 +203,12 @@ export const AllProducts = [
     name: "KARACHI Halwa Box",
     price1: "$380",
     price2: "$302",
+    id: 8,
   },
   {
     type: "Bakery",
     img: img9,
+    id: 9,
     name: "KARACHI Fruit Cookies",
     price1: "$380",
     price2: "$302",
@@ -209,6 +217,7 @@ export const AllProducts = [
   {
     type: "Beverages",
     img: img10,
+    id: 10,
     name: "Thums Up Soft drink",
     price1: "$380",
     price2: "$302",
@@ -216,6 +225,7 @@ export const AllProducts = [
   {
     type: "Beverages",
     img: img11,
+    id: 11,
     name: "Coca-Cola Can",
     price1: "$380",
     price2: "$302",
@@ -223,26 +233,28 @@ export const AllProducts = [
   {
     type: "Beverages",
     img: img12,
+    id: 12,
     name: "Fanta PET Bottle",
     price1: "$380",
     price2: "$302",
   },
 
   {
+    id: 13,
     type: "Big Products",
     Img: [img1e, img1ee],
     heading: "ProV Pistachios",
     firstPrice: "$520",
     SecPrice: "$500",
   },
-  {
+  {id: 14,
     type: "Big Products",
     Img: [img2e, img2ee],
     heading: "Himalayan Cashews",
     firstPrice: "$380",
     SecPrice: "$370",
   },
-  {
+  {id: 15,
     type: "Big Products",
     Img: [img3e, img3ee],
     heading: "Kernels Walnuts",
@@ -250,6 +262,7 @@ export const AllProducts = [
     SecPrice: "$100",
   },
   {
+    id: 14,
     type: "Big Products",
     Img: [img4e, img4ee],
     heading: "Himalayan Almonds",
@@ -257,6 +270,7 @@ export const AllProducts = [
     SecPrice: "$250",
   },
   {
+    id: 15,
     type: "Big Products",
     Img: [img5e, img5ee],
     heading: "Yellow Arhar Dal",
@@ -264,6 +278,7 @@ export const AllProducts = [
     SecPrice: "$30",
   },
   {
+    id: 16,
     type: "Big Products",
     Img: [img6e, img6ee],
     heading: "Tata Sampann Poha",
@@ -271,6 +286,7 @@ export const AllProducts = [
     SecPrice: "$170",
   },
   {
+    id: 17,
     type: "Big Products",
     Img: [img7e, img7ee],
     heading: "Lay's Onion Chips",
@@ -278,6 +294,7 @@ export const AllProducts = [
     SecPrice: "$10",
   },
   {
+    id: 18,
     type: "Big Products",
     Img: [img8e, img8ee],
     heading: "Cadbury Dairy Milk",
@@ -285,6 +302,7 @@ export const AllProducts = [
     SecPrice: "$200",
   },
   {
+    id: 19,
     type: "Big Products",
     Img: [img1e, img1ee],
     heading: "ProV Pistachios",
@@ -292,6 +310,8 @@ export const AllProducts = [
     SecPrice: "$500",
   },
   {
+    id: 20,
+
     type: "Big Products",
     Img: [img2e, img2ee],
     heading: "Himalayan Cashews",
@@ -299,6 +319,7 @@ export const AllProducts = [
     SecPrice: "$370",
   },
   {
+    id: 21,
     type: "Big Products",
     Img: [img3e, img3ee],
     heading: "Kernels Walnuts",
@@ -306,6 +327,7 @@ export const AllProducts = [
     SecPrice: "$100",
   },
   {
+    id: 22,
     type: "Big Products",
     Img: [img4e, img4ee],
     heading: "Himalayan Almonds",
@@ -313,6 +335,7 @@ export const AllProducts = [
     SecPrice: "$250",
   },
   {
+    id: 23,
     type: "Big Products",
     Img: [img3e, img3ee],
     heading: "Kernels Walnuts",
@@ -320,6 +343,7 @@ export const AllProducts = [
     SecPrice: "$100",
   },
   {
+    id: 24,
     type: "Big Products",
     Img: [img4e, img4ee],
     heading: "Himalayan Almonds",
@@ -327,6 +351,7 @@ export const AllProducts = [
     SecPrice: "$250",
   },
   {
+    id: 25,
     type: "Big Products",
     Img: [img7e, img7ee],
     heading: "Lay's Onion Chips",
@@ -334,6 +359,7 @@ export const AllProducts = [
     SecPrice: "$10",
   },
   {
+    id: 26,
     type: "Big Products",
     Img: [img8e, img8ee],
     heading: "Cadbury Dairy Milk",
@@ -341,6 +367,7 @@ export const AllProducts = [
     SecPrice: "$200",
   },
   {
+    id: 27,
     type: "Big Products",
     Img: [img1e, img1ee],
     heading: "ProV Pistachios",
@@ -348,6 +375,7 @@ export const AllProducts = [
     SecPrice: "$500",
   },
   {
+    id: 28,
     type: "Big Products",
     Img: [img2e, img2ee],
     heading: "Himalayan Cashews",

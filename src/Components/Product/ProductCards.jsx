@@ -1,10 +1,23 @@
-import React, { useState } from "react";
+import { useContext, useState } from "react";
 import { AllProducts } from "./Card";
 import Card from "./Card";
+import { CartContext } from "../Pages/Cart/CartReducer";
+import { toast } from "react-toastify";
 
 function ProductCards() {
   const BigProduct = AllProducts.filter((item) => item.type === "Big Products");
   const [visibleCount, setVisibleCount] = useState(4);
+  const { dispatch } = useContext(CartContext);
+  const addToCart = (item) => {
+    dispatch({
+      type: "ADD_TO_CART",
+      payload: item,
+    });
+    toast.success("Added to Cart", {
+      position: "bottom-center",
+      autoClose: 500,
+    });
+  };
 
   const toggleProducts = () => {
     visibleCount >= BigProduct.length
@@ -24,6 +37,7 @@ function ProductCards() {
               heading={item.heading}
               firstPrice={item.firstPrice}
               SecPrice={item.SecPrice}
+              onClick={() => addToCart(item)}
             />
           ))}
         </div>

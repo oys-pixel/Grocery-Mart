@@ -3,13 +3,12 @@ import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import GettingValues from "./OtherForm";
-import Creatable from "../Slecte2";
+import Creatable from "./Slecte2";
 import { useNavigate } from "react-router-dom";
-import { decryptData, encryptData } from "../Encryption";
+import { decryptData, encryptData } from "./Encryption";
 
 function Formic() {
   const [formData, setFormData] = useState([]);
-  const [selected, setSelected] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
 
   const validationSchema = Yup.object({
@@ -107,19 +106,6 @@ function Formic() {
     const data = decryptData("formData");
     if (data) setFormData(data);
   }, []);
-
-  useEffect(() => {
-    setSelected(() =>
-      myForm.values.skill
-        ? //   { value: myForm.values.skill, label: myForm.values.skill }
-          // : null
-          myForm.values.skill.map((item) => ({
-            value: item,
-            label: item,
-          }))
-        : []
-    );
-  }, [myForm.values.skill]);
   return (
     <>
       <form onSubmit={myForm.handleSubmit} className="col-md-6 mx-auto py-4">
@@ -269,7 +255,16 @@ function Formic() {
           name="skill"
           onBlur={myForm.setFieldTouched}
           onChange={myForm.setFieldValue}
-          value={selected}
+          value={
+            myForm.values.skill
+              ? //   { value: myForm.values.skill, label: myForm.values.skill }
+                // : null
+                myForm?.values?.skill?.map((item) => ({
+                  value: item,
+                  label: item,
+                }))
+              : []
+          }
           options={skillOptions.map((s) => ({ value: s, label: s }))}
           isMulti={true}
           isClearable={false}

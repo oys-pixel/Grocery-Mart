@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import {
   FormControl,
   InputLabel,
@@ -7,9 +7,7 @@ import {
   TextField,
   InputAdornment,
 } from "@mui/material";
-import { exportToExcel, exportToPDF } from "../Includes/MaterialInput";
-import Table from "../Includes/MaterialSelect";
-import { Link } from "react-router-dom";
+import { exportToExcel, exportToPDF } from "../../Includes/MaterialInput";
 
 function GettingValues({ data, handleDelete, handleEdit }) {
   const [searchKey, setSearchKey] = useState("name");
@@ -181,7 +179,7 @@ function GettingValues({ data, handleDelete, handleEdit }) {
 
 export default GettingValues;
 
-// simple search functionality to filter data based on user input 
+// simple search functionality to filter data based on user input
 // const [searchItems, setSearchItems] = useState("");
 // const [filteredData, setFilteredData] = useState(data);
 

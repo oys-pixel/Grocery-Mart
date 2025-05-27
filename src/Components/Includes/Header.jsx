@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import PopUp from "../Pages/Home/PopUp";
+import { CartContext } from "../Pages/Cart/CartReducer";
 
 function Header() {
   const [popup, setPopup] = useState(false);
+  const { state } = useContext(CartContext);
+  const TotalItems = state.cartItems.reduce(
+    (sum, item) => sum + item.quantity,
+    0
+  );
+
   return (
     <div className="head">
       <div className="container">
@@ -34,14 +41,12 @@ function Header() {
             </div>
           </div>
           <div className="cart">
-            <form action="/cart" method="post" className="last">
-              <input type="hidden" name="cmd" defaultValue="_cart" />
-              <input type="hidden" name="display" defaultValue={1} />
-              <button className="viewcart"  type="button">
-                
-                <a href="/cart"><i className="fas fa-shopping-bag" /></a>
-              </button>
-            </form>
+            <span className="cart-count-badge">{TotalItems}</span>
+            <button className="viewcart" type="button">
+              <Link to="/cart">
+                <i className="fas fa-shopping-bag" />
+              </Link>
+            </button>
           </div>
         </div>
       </div>

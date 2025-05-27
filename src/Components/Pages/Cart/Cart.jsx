@@ -1,31 +1,45 @@
-import React from "react";
+import CartItem from "./CartItem";
+import "./Cart.css";
+import { useContext } from "react";
+import { CartContext } from "./CartReducer";
+import { toast } from "react-toastify";
 
 function Cart() {
-  return (
-    <>
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12">
-            <h1>Your Cart</h1>
-            <div className="heading-cart d-flex justify-content-evenly align-items-center">
-              <h4>Item</h4>
-              <h4>Price</h4>
-              <h4>Quantity</h4>
-              <h4>Total</h4>
-            </div>
-          </div>
-          {/* <div className="col-md-12">
-            <p>Your cart is currently empty.</p>
-          </div> */}
+  const { state, dispatch } = useContext(CartContext);
+  const { cartItems } = state;
+  const ClearCart = () => {
+    dispatch({
+      type: "CLEAR_CART",
+    });
+    toast("Cart is empty");
+  };
 
-          <div className="col-md-12">
-            <button className="btn btn-primary">Continue Shopping</button>
-            <button className="btn btn-danger">Clear Cart</button>
-            <button className="btn btn-success">Checkout</button>
-          </div>
-        </div>
+  return (
+    <div className="container py-5">
+      <h2 className="mb-4 text-center fw-bold">Your Shopping Cart</h2>
+      <div className="table-responsive">
+        <table className="table table-bordered table-hover align-middle text-center">
+          <thead className="table-primary">
+            <tr>
+              <th scope="col">Image</th>
+              <th scope="col">Product Name</th>
+              <th scope="col">Price</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total</th>
+              <th scope="col">Remove</th>
+            </tr>
+          </thead>
+          <CartItem />
+        </table>
       </div>
-    </>
+      <button
+        className="btn btn-outline-danger"
+        disabled={state.cartItems.length === 0}
+        onClick={ClearCart}
+      >
+        Clear Cart
+      </button>
+    </div>
   );
 }
 
