@@ -52,10 +52,7 @@ export const router = createBrowserRouter([
       },
     ],
   },
-  {
-    path: "*",
-    element: <NoPage />,
-  },
+  
   {
     path: "/login",
     element: (
