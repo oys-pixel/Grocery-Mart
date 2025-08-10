@@ -43,6 +43,11 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path:"*",
+        element:(
+          <NoPage/>
+        ),
+      {
         path: "/puzzle",
         element: (
           <PrivateRoute>
